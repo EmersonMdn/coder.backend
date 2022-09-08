@@ -21,8 +21,6 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", (req, res) => {
   const { title, price, thumbnail } = req.body;
-  let date = new Date();
-
   let id = Products.length + 1;
 
 
