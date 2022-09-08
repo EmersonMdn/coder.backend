@@ -1,35 +1,16 @@
 const express = require("express");
 const app = express();
-const fs = require("fs");
 
-class Producto {
-  constructor(archivo) {
-    this.archivo = archivo;
-  }
-  getData() {
-    const productos = fs.readFileSync(this.archivo, "utf-8");
-    const parseData = JSON.parse(productos);
-    return parseData;
-  }
-  getRandom() {
-    const productos = this.getData();
-    const idRandom = parseInt(Math.random() * productos.length);
-    return productos[idRandom];
-  }
-}
+const productsRouter = require("./productos");
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const productos = new Producto('data.txt');
+app.use("/api/productos", productsRouter);
 
-app.get("/productos", (req, res) => {
-  
-  res.send(productos.getData());
-});
-app.get("/productoRandom", (req, res) => {
-  const idRandom = parseInt(Math.random() * productos.length);
+app.use("/api/productos/:id", productsRouter);
 
-  res.send([productos.getRandom()]);
-});
+app.use("/", express.static(__dirname + "/public"));
 
-app.listen(8080, () => {
-  console.log("servidor en linea");
+app.listen(8080, async () => {
+  console.log("Started");
 });
