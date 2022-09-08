@@ -11,6 +11,6 @@ app.use("/api/productos/:id", productsRouter);
 
 app.use("/", express.static(__dirname + "/public"));
 
-app.listen(8080, async () => {
+app.listen(8080, () => {
   console.log("Started");
 });
